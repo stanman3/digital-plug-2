@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block page_content %}
+  <div class="section-16 wf-section">
+    <div class="container-11 w-container">
+      <h1 class="heading-18">Delete project</h1>
+      <form enctype="multipart/form-data" id="email-form" name="email-form" data-name="Email Form" method="post" class="form" action="{% url 'delete project' project.pk %}">
+            {{ form }}
+            {% csrf_token %}
+            <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-4 w-button">
+      </form>
+    </div>
+  </div>
+{% endblock %}

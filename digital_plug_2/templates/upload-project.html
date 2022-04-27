@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block page_content %}
+  <div class="section-14 wf-section">
+    <div class="w-container">
+      <h1 class="heading-16">Upload project</h1>
+      <div class="w-form">
+        <form enctype="multipart/form-data" id="email-form" name="email-form" data-name="Email Form" method="post" class="form" action="{% url 'upload project' %}">
+            {{ form }}
+            {% csrf_token %}
+            <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-4 w-button">
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

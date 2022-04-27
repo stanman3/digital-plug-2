@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+  <div class="section-6 wf-section">
+    <div class="container-6 w-container">
+        <div>
+        <h1 class="heading-20">No projects yet?</h1>
+      </div>
+        <div class="container-10 w-container">
+            <a href="{% url 'upload project' %}" class="button-8 w-button"><strong>Upload</strong></a>
+        </div>
+      <div>
+        <h1 class="heading-20">My recent projects</h1>
+      </div>
+      <div class="w-row">
+        <div class="column-9 w-col w-col-6">
+          <div class="div-block-16"><img src="{% static 'images/profile-pic-01.png' %}" loading="lazy" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="{% static 'images/profile-pic-01-p-500.png' %} 500w, images/profile-pic-01-p-800.png 800w, images/profile-pic-01-p-1080.png 1080w, images/profile-pic-01-p-1600.png 1600w, images/profile-pic-01-p-2000.png 2000w, images/profile-pic-01-p-2600.png 2600w, images/profile-pic-01-p-3200.png 3200w, images/profile-pic-01.png 4167w" alt="" class="image-14">
+            <div class="text-block-12">ILLUSTRATION</div>
+            <h1 class="heading-21">Lollimouth</h1>
+          </div>
+        </div>
+        <div class="column-10 w-col w-col-6">
+          <div class="div-block-16"><img src="{% static 'images/profile-pic-01.png' %}" loading="lazy" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="{% static 'images/profile-pic-01-p-500.png' %} 500w, images/profile-pic-01-p-800.png 800w, images/profile-pic-01-p-1080.png 1080w, images/profile-pic-01-p-1600.png 1600w, images/profile-pic-01-p-2000.png 2000w, images/profile-pic-01-p-2600.png 2600w, images/profile-pic-01-p-3200.png 3200w, images/profile-pic-01.png 4167w" alt="" class="image-14">
+            <div class="text-block-12">ILLUSTRATION</div>
+            <h1 class="heading-21">Lollimouth</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
