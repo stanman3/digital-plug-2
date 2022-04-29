@@ -4,7 +4,7 @@
 <html data-wf-page="62504d941e141e5788f59da0" data-wf-site="6130cdb60e53ba413f56bbce">
 <head>
   <meta charset="utf-8">
-  <title>about</title>
+  <title>Digital Plug</title>
   <meta content="about" property="og:title">
   <meta content="about" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -22,13 +22,29 @@
 <body>
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-2 w-nav">
     <div class="container w-container">
-      <a href="{% url 'home' %}" class="brand-2 w-nav-brand"><img src="{% static 'images/logo-digital-plug.png' %}" loading="lazy" width="92" sizes="92px" srcset="{% static 'images/logo-digital-plug-p-500.png' %} 500w, images/logo-digital-plug-p-800.png 800w, images/logo-digital-plug-p-1080.png 1080w, images/logo-digital-plug-p-1600.png 1600w, images/logo-digital-plug-p-2000.png 2000w, images/logo-digital-plug-p-2600.png 2600w, images/logo-digital-plug.png 3323w" alt="" class="image-9"></a>
+      <a href="{% url 'show index' %}" class="brand-2 w-nav-brand"><img src="{% static 'images/logo-digital-plug.png' %}" loading="lazy" width="92" sizes="92px" srcset="{% static 'images/logo-digital-plug-p-500.png' %} 500w, images/logo-digital-plug-p-800.png 800w, images/logo-digital-plug-p-1080.png 1080w, images/logo-digital-plug-p-1600.png 1600w, images/logo-digital-plug-p-2000.png 2000w, images/logo-digital-plug-p-2600.png 2600w, images/logo-digital-plug.png 3323w" alt="" class="image-9"></a>
       <nav role="navigation" class="nav-menu-2 w-nav-menu">
-        <a href="{% url 'upload project' %}" class="nav-link-4 w-nav-link">Upload</a>
+          {% if request.user.is_authenticated %}
+          <p class="nav-link-4 w-nav-link">Hello, {{ request.user }}</p>
+              {% if request.user.is_staff %}
+        <a href="{% url 'dashboard' %}" class="nav-link-4 w-nav-link">Dashboard</a>
+              {% endif %}
+{#        <a href="{% url 'upload project' %}" class="nav-link-4 w-nav-link">Upload</a>#}
+              {% if not request.user.is_superuser %}
         <a href="{% url 'profile details' %}" class="nav-link-4 w-nav-link">Profile</a>
+                  {% endif %}
+          {% endif %}
+      {% if request.user.is_anonymous %}
+        <a href="{% url 'explore' %}" class="nav-link-4 w-nav-link">Explore</a>
+      {% endif %}
         <a href="{% url 'about' %}" class="nav-link-4 w-nav-link">About</a>
+      {% if not request.user.is_authenticated %}
         <a href="{% url 'login' %}" class="nav-link-4 button w-nav-link">Log in</a>
         <a href="{% url 'register' %}" class="nav-link-4 button w-nav-link">Register</a>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="nav-link-4 button w-nav-link">Logout</a>
+      {% endif %}
       </nav>
       <div class="menu-button w-nav-button">
         <div class="w-icon-nav-menu"></div>

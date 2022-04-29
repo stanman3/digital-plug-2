@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+  <div class="section-17 wf-section">
+    <div class="w-container">
+      <div class="w-row">
+        <div class="column-11 w-col w-col-6">
+          <div class="div-block-17">
+            <h1 class="heading-23">Total Creators</h1>
+            <h1 class="heading-24">{{ creator_count }}</h1>
+          </div>
+        </div>
+        <div class="column-12 w-col w-col-6">
+          <div class="div-block-17">
+            <h1 class="heading-23">Total Projects</h1>
+            <h1 class="heading-24">{{ project_count }}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="w-row">
+        <div class="column-13 w-col w-col-6">
+          <div class="div-block-18">
+            <h1 class="heading-23">Creators</h1>
+            <ol role="list" class="w-list-unstyled">
+                {% for creator in creators %}
+              <li class="list-item">
+                <h5>{{ creator.first_name }} {{ creator.last_name }}</h5>
+                <div class="div-block-19">
+                  <a href="{% url 'creator details' creator.pk %}"><h5>View</h5></a>
+                </div>
+              </li>
+                {% endfor %}
+            </ol>
+{#            <a href="#" class="button-10 w-button"><strong class="bold-text">New Creator</strong></a>#}
+          </div>
+        </div>
+        <div class="column-14 w-col w-col-6">
+          <div class="div-block-18">
+            <h1 class="heading-23">Projects</h1>
+            <ol role="list" class="w-list-unstyled">
+                {% for pr in projects %}
+              <li class="list-item">
+                <a href="{% url 'project details' pr.pk %}"><h5>{{ pr.title }}</h5></a>
+                <div class="div-block-19">
+                  <a href="{% url 'edit project' pr.pk %}"><h5>Edit</h5></a>
+                    <a href="{% url 'delete project' pr.pk %}"><h5 class="heading-25">Delete</h5></a>
+                </div>
+              </li>
+                {% endfor %}
+            </ol>
+{#            <a href="{% url 'upload project' %}" class="button-10 w-button"><strong class="bold-text">New Project</strong></a>#}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

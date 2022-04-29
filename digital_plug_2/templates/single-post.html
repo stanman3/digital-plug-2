@@ -8,11 +8,14 @@
           <div class="column-7 w-col w-col-6">
             <div class="text-block-11">{{ project.category }}</div>
             <h1 class="heading-15">{{ project.title }}</h1>
+              <h3 class="heading-15">Creator: <a href="{% url 'creator details' creator.pk %}">@{{ creator.user.username }}</a></h3>
             <p class="paragraph-2">{{ project.description }}</p>
+              {% if request.user.is_superuser or request.user.is_active %}
             <div class="div-block-13">
               <a href="{% url 'edit project' project.pk %}" class="button-6 w-button">Edit</a>
               <a href="{% url 'delete project' project.pk %}" class="button-7 w-button">Delete</a>
             </div>
+              {% endif %}
           </div>
         </div>
       </div>

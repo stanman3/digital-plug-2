@@ -1,7 +1,7 @@
 from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
-
 from digital_plug_2.main.validators import MaxFileSizeInMbValidator, validate_only_letter
+from django.contrib.auth.models import User
 
 
 class Creator(models.Model):
@@ -21,6 +21,12 @@ class Creator(models.Model):
 
     IMAGE_MAX_SIZE_IN_MB = 5
     IMAGE_UPLOAD_TO_DIR = 'profiles/'
+
+    user = models.OneToOneField(
+        User,
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     first_name = models.CharField(
         max_length=FIRST_NAME_MAX_LEN,
@@ -50,10 +56,10 @@ class Creator(models.Model):
         ),
     )
 
-    email = models.EmailField(
-        null=True,
-        blank=True,
-    )
+    # email = models.EmailField(
+    #     null=True,
+    #     blank=True,
+    # )
 
     country = models.CharField(
         max_length=LOCATION_MAX_LEN,

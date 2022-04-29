@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_content %}
   <div class="section wf-section">
     <div class="container w-container">
@@ -7,7 +8,7 @@
           <div class="text-block">Welcome!</div>
           <h1 class="heading">Our graphic design community. Your digital plug.</h1>
         </div>
-        <div><img src="images/plug.png" loading="eager" sizes="(max-width: 767px) 100vw, (max-width: 991px) 31vw, 300px" width="300" srcset="images/plug-p-500.png 500w, images/plug-p-800.png 800w, images/plug-p-1080.png 1080w, images/plug-p-1600.png 1600w, images/plug-p-2000.png 2000w, images/plug-p-2600.png 2600w, images/plug.png 3273w" alt="" class="image-12"></div>
+        <div><img src="{% static 'images/plug.png' %}" loading="eager" sizes="(max-width: 767px) 100vw, (max-width: 991px) 31vw, 300px" width="300" srcset="{% static 'images/plug-p-500.png' %} 500w, {% static 'images/plug-p-800.png' %} 800w, {% static 'images/plug-p-1080.png' %} 1080w, {% static 'images/plug-p-1600.png' %} 1600w, {% static 'images/plug-p-2000.png' %} 2000w, {% static 'images/plug-p-2600.png' %} 2600w, {% static 'images/plug.png' %} 3273w" alt="" class="image-12"></div>
       </div>
     </div>
   </div>
@@ -18,7 +19,7 @@
         <div class="column w-col w-col-6">
           <h3 class="heading-3">Register as a creator</h3>
           <div class="text-block-2">You have skills to offer? Register as a creator and feature your best pieces to find potential clients.</div>
-          <a href="#" class="button-2 w-button">Become a Creator</a>
+          <a href="{% url 'register' %}" class="button-2 w-button">Become a Creator</a>
         </div>
         <div class="column-2 w-col w-col-6">
           <h3 class="heading-3">Register as an explorer</h3>

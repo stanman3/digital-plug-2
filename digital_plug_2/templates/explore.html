@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block page_content %}
+  <div class="wf-section">
+    <div class="w-container">
+        {% if not projects %}
+        <h1 class="heading-29">No projects posted so far.</h1>
+        {% else %}
+      <h1 class="heading-29">Explore projects</h1>
+      <div class="w-row">
+        <div class="column-19 w-col w-col-6">
+            {% for ev in even_pr %}
+          <div class="div-block-16"><img src="{{ ev.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 58vw, (max-width: 767px) 59vw, (max-width: 991px) 174px, 280px" srcset="{{ ev.image.url }} 500w, {{ ev.image.url }} 800w, {{ ev.image.url }} 1080w, {{ ev.image.url }} 1600w, {{ ev.image.url }} 2000w, {{ ev.image.url }} 2600w, {{ ev.image.url }} 3200w, {{ ev.image.url }} 4167w" alt="" class="image-14">
+            <div class="text-block-12">
+                {% for cat in ev.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+            </div>
+              <div class="text-block-12"><a href="{% url 'creator details' ev.creator.pk %}">@{{ ev.creator.user.username }}</a></div>
+            <h1 class="heading-21">{{ ev.title }}</h1>
+          </div>
+            {% endfor %}
+        </div>
+        <div class="column-18 w-col w-col-6">
+            {% for odd in odd_pr %}
+          <div class="div-block-16"><img src="{{ odd.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 58vw, (max-width: 767px) 59vw, (max-width: 991px) 174px, 280px" srcset="{{ odd.image.url }} 500w, {{ odd.image.url }} 800w, {{ odd.image.url }} 1080w, {{ odd.image.url }} 1600w, {{ odd.image.url }} 2000w, {{ odd.image.url }} 2600w, {{ odd.image.url }} 3200w, {{ odd.image.url }} 4167w" alt="" class="image-14">
+            <div class="text-block-12">
+                {% for cat in odd.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+            </div>
+              <div class="text-block-12"><a href="{% url 'creator details' odd.creator.pk %}">@{{ odd.creator.user.username }}</a></div>
+            <h1 class="heading-21">{{ odd.title }}</h1>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}

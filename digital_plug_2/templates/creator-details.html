@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+  <div class="wf-section">
+    <div class="container-12 w-container">
+                <h1>{% if creator.first_name %}{{ creator.first_name }}{% endif %} {% if creator.last_name %}{{ creator.last_name }}{% endif %}</h1>
+      <h1 class="heading-27">@{{ creator.user.username }}</h1>
+      <div>
+        <div class="w-row">
+          <div class="column-15 w-col w-col-3">
+          {% if creator.image %}
+            <div class="div-block-20"><img src="{{ creator.image.url }}" loading="eager" width="1000" sizes="(max-width: 479px) 100vw, (max-width: 767px) 84vw, 200.5px" srcset="{{ creator.image.url }} 500w, {{ creator.image.url }} 800w, {{ creator.image.url }} 1080w, {{ creator.image.url }} 1200w" alt="" class="image-16"></div>
+              {% else %}
+          <div class="div-block-20"><img src="{% static 'images/user-filled-shape.png' %}" loading="eager" width="1000" sizes="(max-width: 479px) 100vw, (max-width: 767px) 84vw, 200.5px" srcset="{% static 'images/user-filled-shape.png' %} 500w, {% static 'images/user-filled-shape.png' %} 800w, {% static 'images/user-filled-shape.png' %} 1080w, {% static 'images/user-filled-shape.png' %} 1200w" alt="" class="image-16"></div>
+          {% endif %}
+          <br>
+            <div>
+                {% if creator.age %}
+                <h3>Age: {{ creator.age }}</h3>
+                {% endif %}
+            {% if creator.country %}
+              <h3 class="heading-26">Country: {{ creator.country }}</h3>
+            {% endif %}
+            <h5 class="heading-26">Email: {{ creator.user.email }}</h5>
+            {% if request.user.is_superuser %}
+              <div class="div-block-22">
+                <a href="{% url 'creator edit' creator.pk %}" class="button-12 w-button"><strong>Edit</strong></a>
+                <a href="{% url 'creator delete' creator.pk %}" class="button-13 w-button"><strong>Delete</strong></a>
+              </div>
+              <a href="{% url 'upload project' creator.pk %}" class="button-11 w-button"><strong>New Project</strong></a>
+            {% endif %}
+            </div>
+          </div>
+
+          <div class="w-col w-col-9">
+            <div class="w-row">
+            {% if projects %}
+              <div class="column-16 w-col w-col-6">
+              {% if odd_pr %}
+                  {% for odd in odd_pr %}
+                <div class="div-block-16"><a href="{% url 'project details' odd.pk %}"><img src="{{ odd.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 82vw, (max-width: 767px) 300px, (max-width: 991px) 140.5px, 220px" srcset="{{ odd.image.url }} 500w, {{ odd.image.url }} 800w, {{ odd.image.url }} 1080w, {{ odd.image.url }} 1600w, {{ odd.image.url }} 2000w, {{ odd.image.url }} 2600w, {{ odd.image.url }} 3200w, {{ odd.image.url }} 4167w" alt="" class="image-14"></a>
+                  <div class="text-block-12">
+                      {% for cat in odd.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+                  </div>
+                  <h1 class="heading-21">{{ odd.title }}</h1>
+                </div>
+                  {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="column-17 w-col w-col-6">
+                  {% for ev in even_pr %}
+                      <div class="div-block-16"><a href="{% url 'project details' ev.pk %}"><img src="{{ ev.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 82vw, (max-width: 767px) 300px, (max-width: 991px) 140.5px, 220px" srcset="{{ ev.image.url }} 500w, {{ ev.image.url }} 800w, {{ ev.image.url }} 1080w, {{ ev.image.url }} 1600w, {{ ev.image.url }} 2000w, {{ ev.image.url }} 2600w, {{ ev.image.url }} 3200w, {{ ev.image.url }} 4167w" alt="" class="image-14"></a>
+                  <div class="text-block-12">
+                      {% for cat in ev.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+                  </div>
+                  <h1 class="heading-21">{{ ev.title }}</h1>
+                </div>
+                  {% endfor %}
+              </div>
+            {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

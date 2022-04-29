@@ -6,7 +6,7 @@
       <form enctype="multipart/form-data" id="email-form" name="email-form" data-name="Email Form" method="post" class="form" action="{% url 'delete project' project.pk %}">
             {{ form }}
             {% csrf_token %}
-            <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-4 w-button">
+            <input type="submit" value="Delete" data-wait="Please wait..." class="submit-button-4 w-button">
       </form>
     </div>
   </div>

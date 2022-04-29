@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_content %}
   <div class="section-7 wf-section">
     <div class="container w-container">
       <div class="div-block-9">
-        <div><img src="images/profile-photo-linkedin.png" loading="lazy" width="250" sizes="(max-width: 479px) 100vw, (max-width: 767px) 41vw, (max-width: 991px) 250px, 100vw" srcset="images/profile-photo-linkedin-p-500.png 500w, images/profile-photo-linkedin-p-800.png 800w, images/profile-photo-linkedin-p-1080.png 1080w, images/profile-photo-linkedin.png 1200w" alt="" class="image-10"></div>
+          {% if creator.image %}
+        <div><img src="{{ creator.image.url }}" loading="eager" width="250" sizes="(max-width: 479px) 100vw, (max-width: 767px) 41vw, (max-width: 991px) 250px, 100vw" srcset="{{ creator.image.url }} 500w, {{ creator.image.url }} 800w, {{ creator.image.url }} 1080w, {{ creator.image.url }} 1200w" alt="" class="image-10"></div>
+          {% else %}
+              <div><img src="{% static 'images/user-filled-shape.png' %}" loading="eager" width="250" sizes="(max-width: 479px) 100vw, (max-width: 767px) 41vw, (max-width: 991px) 250px, 100vw" srcset="{% static 'images/user-filled-shape.png' %} 500w, {% static 'images/user-filled-shape.png' %} 800w, {% static 'images/user-filled-shape.png' %} 1080w, {% static 'images/user-filled-shape.png' %} 1200w" alt="" class="image-10"></div>
+          {% endif %}
         <div class="div-block-10">
-          <h1 class="heading-6">Stanislav<br>Manolov</h1>
-          <h3 class="heading-7">@stanislavm1</h3>
-          <div>Age: 24</div>
-          <div>City: Sofia</div>
-          <div>Country: Bulgaria</div>
-          <div>Email: stanislav@gmail.com</div>
-          <div class="text-block-8">Description: Lorem ipsum</div>
+            {% if creator.first_name or creator.last_name %}
+          <h1 class="heading-6">{% if creator.first_name %}{{ creator.first_name }}{% endif %}<br>{% if creator.last_name %}{{ creator.last_name }}{% endif %}</h1>
+        {% endif %}
+          <h3 class="heading-7">@{{ creator.user.username }}</h3>
+        {% if creator.age %}
+          <div>Age: {{ creator.age }}</div>
+        {% endif %}
+        {% if creator.country %}
+          <div>Country: {{ creator.country }}</div>
+        {% endif %}
+          <div>Email: {{ creator.user.email }}</div>
           <div class="div-block-11">
-            <a href="#" class="button-3 w-button">Edit</a>
-            <a href="#" class="button-4 w-button">Delete</a>
+            <a href="{% url 'profile edit' %}" class="button-3 w-button">Edit</a>
+            <a href="{% url 'profile delete' %}" class="button-4 w-button">Delete</a>
           </div>
         </div>
       </div>
@@ -22,19 +31,44 @@
   </div>
   <div class="wf-section">
     <div class="container-7 w-container">
+    {% if not projects %}
+      <h1 class="heading-8">You don't have any projects yet...</h1>
+    {% else %}
       <h1 class="heading-8">Projects</h1>
+    {% endif %}
+    <div class="container-10 w-container">
+            <a href="{% url 'upload project' creator.pk %}" class="button-8 w-button"><strong>Upload</strong></a>
+        </div>
       <div class="w-row">
+
         <div class="column-9 w-col w-col-6">
-          <div class="div-block-16"><img src="images/profile-pic-01.png" loading="lazy" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="images/profile-pic-01-p-500.png 500w, images/profile-pic-01-p-800.png 800w, images/profile-pic-01-p-1080.png 1080w, images/profile-pic-01-p-1600.png 1600w, images/profile-pic-01-p-2000.png 2000w, images/profile-pic-01-p-2600.png 2600w, images/profile-pic-01-p-3200.png 3200w, images/profile-pic-01.png 4167w" alt="" class="image-14">
-            <div class="text-block-12">ILLUSTRATION</div>
-            <h1 class="heading-21">Lollimouth</h1>
+            {% for ev in even_pr %}
+          <div class="div-block-16">
+          <a href="{% url 'project details' ev.pk %}">
+              <img src="{{ ev.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="{{ ev.image.url }} 500w, {{ ev.image.url }} 800w, {{ ev.image.url }} 1080w, {{ ev.image.url }} 1600w, {{ ev.image.url }} 2000w, {{ ev.image.url }} 2600w, {{ ev.image.url }} 3200w, {{ ev.image.url }} 4167w" alt="" class="image-14">
+          </a>
+              <div class="text-block-12">
+                  {% for cat in ev.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+              </div>
+            <h1 class="heading-21">{{ ev.title }}</h1>
           </div>
+            {% endfor %}
         </div>
         <div class="column-10 w-col w-col-6">
-          <div class="div-block-16"><img src="images/profile-pic-01.png" loading="lazy" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="images/profile-pic-01-p-500.png 500w, images/profile-pic-01-p-800.png 800w, images/profile-pic-01-p-1080.png 1080w, images/profile-pic-01-p-1600.png 1600w, images/profile-pic-01-p-2000.png 2000w, images/profile-pic-01-p-2600.png 2600w, images/profile-pic-01-p-3200.png 3200w, images/profile-pic-01.png 4167w" alt="" class="image-14">
-            <div class="text-block-12">ILLUSTRATION</div>
-            <h1 class="heading-21">Lollimouth</h1>
+            {% for odd in odd_pr %}
+          <div class="div-block-16">
+              <a href="{% url 'project details' odd.pk %}">
+                  <img src="{{ odd.image.url }}" loading="eager" width="300" sizes="(max-width: 479px) 82vw, 300px" srcset="{{ odd.image.url }} 500w, {{ odd.image.url }} 800w, {{ odd.image.url }} 1080w, {{ odd.image.url }} 1600w, {{ odd.image.url }} 2000w, {{ odd.image.url }} 2600w, {{ odd.image.url }} 3200w, {{ odd.image.url }} 4167w" alt="" class="image-14"></a>
+            <div class="text-block-12">
+                {% for cat in odd.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+            </div>
+            <h1 class="heading-21">{{ odd.title }}</h1>
           </div>
+            {% endfor %}
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block page_content %}
-  <div class="wf-section">
-    <div class="container-9 w-container">
-      <h1 class="heading-22">Register</h1>
+  <div class="section-10 wf-section">
+    <h1 class="heading-11">Edit profile</h1>
+    <div class="w-container">
       <div class="form-block-2 w-form">
-        <form id="email-form" name="email-form" data-name="Email Form" method="post" action="{% url 'register' %}">
+        <form enctype="multipart/form-data" id="email-form" name="email-form" data-name="Email Form" method="post" action="{% url 'creator edit' creator.pk %}">
 {#            <label for="name-4">Username</label>#}
 {#            <input type="text" class="text-field-9 w-input" maxlength="256" name="name-3" data-name="Name 3" placeholder="" id="name-3">#}
 {#            <label for="name-4">Password</label>#}
@@ -13,7 +13,7 @@
 {#            <input type="email" class="text-field-3 text-field-9 w-input" maxlength="256" name="email-2" data-name="Email 2" placeholder="" id="email-2" required="">#}
             {{ form }}
             {% csrf_token %}
-            <input type="submit" value="Register" data-wait="Please wait..." class="submit-button-2 w-button">
+            <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-2 w-button">
         </form>
 {#        <div class="w-form-done">#}
 {#          <div>Thank you! Your submission has been received!</div>#}
