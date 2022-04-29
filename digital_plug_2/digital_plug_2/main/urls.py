@@ -1,12 +1,13 @@
 from django.urls import path
 
-from digital_plug_2.main.views import show_index, show_home, login, register, profile_details, profile_edit, \
-    profile_delete, upload_project, project_details, delete_project, about, logout_user, dashboard, \
-    explore, creator_details, creator_edit, creator_delete, EditProject
+from digital_plug_2.main.views import show_home, login, register, profile_details, profile_edit, \
+    profile_delete, about, logout_user, dashboard, \
+    explore, creator_details, creator_edit, creator_delete, EditProject, UploadView, DeleteProject, ProjectDetails, \
+    ShowIndex
 
 urlpatterns = (
     path('', show_home, name='home'),
-    path('home/', show_index, name='show index'),
+    path('home/', ShowIndex.as_view(), name='show index'),
     path('dashboard/', dashboard, name='dashboard'),
     path('explore/', explore, name='explore'),
 
@@ -22,10 +23,10 @@ urlpatterns = (
     path('profile/edit/', profile_edit, name='profile edit'),
     path('profile/delete/', profile_delete, name='profile delete'),
 
-    path('project/upload/<int:pk>/', upload_project, name='upload project'),
-    path('project/details/<int:pk>/', project_details, name='project details'),
+    path('project/upload/', UploadView.as_view(), name='upload project'),
+    path('project/details/<int:pk>/', ProjectDetails.as_view(), name='project details'),
     path('project/edit/<int:pk>/', EditProject.as_view(), name='edit project'),
-    path('project/delete/<int:pk>/', delete_project, name='delete project'),
+    path('project/delete/<int:pk>/', DeleteProject.as_view(), name='delete project'),
 
     path('about/', about, name='about'),
 )

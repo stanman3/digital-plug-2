@@ -6,7 +6,11 @@
         <div class="w-row">
           <div class="column-8 w-col w-col-6"><img src="{{ project.image.url }}" loading="eager" width="400" sizes="(max-width: 479px) 84vw, (max-width: 767px) 400px, (max-width: 991px) 354px, 400px" srcset="{{ project.image.url }} 500w, {{ project.image.url }} 800w, {{ project.image.url }} 1080w, {{ project.image.url }} 1600w, {{ project.image.url }} 2000w, {{ project.image.url }} 2600w, {{ project.image.url }} 3200w, {{ project.image.url }} 4167w" alt="" class="image-11"></div>
           <div class="column-7 w-col w-col-6">
-            <div class="text-block-11">{{ project.category }}</div>
+            <div class="text-block-11">
+                {% for cat in project.category.all %}
+                          {{ cat }}
+                          {% endfor %}
+            </div>
             <h1 class="heading-15">{{ project.title }}</h1>
               <h3 class="heading-15">Creator: <a href="{% url 'creator details' creator.pk %}">@{{ creator.user.username }}</a></h3>
             <p class="paragraph-2">{{ project.description }}</p>

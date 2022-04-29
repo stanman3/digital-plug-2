@@ -24,7 +24,7 @@
             <ol role="list" class="w-list-unstyled">
                 {% for creator in creators %}
               <li class="list-item">
-                <h5>{{ creator.first_name }} {{ creator.last_name }}</h5>
+                <h5>@{{ creator.user.username }}</h5>
                 <div class="div-block-19">
                   <a href="{% url 'creator details' creator.pk %}"><h5>View</h5></a>
                 </div>

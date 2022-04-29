@@ -42,7 +42,7 @@ def show_home(request):
         return redirect('dashboard')
     creator = get_creator()
     if creator:
-        projects = request.user.creator.project_set.all()
+        projects = request.user.creator.project_set.all()[::-1]
         project_1 = ''
         project_2 = ''
         if projects:
@@ -63,11 +63,13 @@ def show_home(request):
         return redirect('show index')
 
 
-def show_index(request):
-    # creator = get_creator()
-    if request.user.is_authenticated:
-        return redirect('home')
-    return render(request, 'index.html')
+class ShowIndex(views.TemplateView):
+    template_name = 'index.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        return super(ShowIndex, self).dispatch(request, *args, **kwargs)
 
 
 @unauthenticated_user
@@ -122,7 +124,7 @@ def creator_details(request, pk):
     if not request.user.is_superuser and not request.user.is_anonymous:
         return redirect('profile details')
     creator = Creator.objects.get(pk=pk)
-    projects = creator.project_set.all()
+    projects = creator.project_set.all()[::-1]
     even_pr = []
     odd_pr = []
     for i in range(len(projects)):
@@ -141,7 +143,7 @@ def creator_details(request, pk):
 
 
 def explore(request):
-    projects = Project.objects.all()
+    projects = Project.objects.all()[::-1]
     even_pr = []
     odd_pr = []
     for i in range(len(projects)):
@@ -162,7 +164,7 @@ def explore(request):
 @allowed_users(allowed_roles=['creator'])
 def profile_details(request):
     creator = request.user.creator
-    projects = request.user.creator.project_set.all()
+    projects = request.user.creator.project_set.all()[::-1]
     even_pr = []
     odd_pr = []
     for i in range(len(projects)):
@@ -242,61 +244,9 @@ def creator_delete(request, pk):
     return render(request, 'delete-creator.html', context)
 
 
-@login_required(login_url='login')
-def upload_project(request, pk):
-    creator = Creator.objects.get(pk=pk)
-    form = ProjectForm(initial={'creator': creator})
-    if request.method == 'POST':
-        form = ProjectForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {
-        'form': form,
-        'creator': creator,
-    }
-    return render(request, 'upload-project.html', context)
-# class UploadView(CreateView):
-#     template_name = 'upload-project.html'
-#     form_class = ProjectForm
-#
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs['user'] = self.request.user
-#         return kwargs
-
-
-@login_required(login_url='login')
-def project_details(request, pk):
-    project = Project.objects.get(pk=pk)
-    creator = project.creator
-    context = {
-        'project': project,
-        'creator': creator,
-    }
-    return render(request, 'single-post.html', context)
-
-
-# @login_required(login_url='login')
-# def edit_project(request, pk):
-#     project = Project.objects.get(pk=pk)
-#     if request.method == 'POST':
-#         form = ProjectForm(request.POST, request.FILES, instance=project)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('project details', project.pk)
-#     else:
-#         form = ProjectForm(instance=project)
-#     context = {
-#         'form': form,
-#         'project': project,
-#     }
-#     return render(request, 'edit-project.html', context)
-
-
-class EditProject(views.UpdateView):
+class UploadView(CreateView):
     model = Project
-    template_name = 'edit-project.html'
+    template_name = 'upload-project.html'
     form_class = ProjectForm
     success_url = reverse_lazy('home')
 
@@ -306,17 +256,38 @@ class EditProject(views.UpdateView):
         return super().get_success_url()
 
 
-@login_required(login_url='login')
-def delete_project(request, pk):
-    project = Project.objects.get(pk=pk)
-    if request.method == 'POST':
-        project.delete()
-        return redirect('home')
+class ProjectDetails(views.DetailView):
+    model = Project
+    template_name = 'single-post.html'
 
-    context = {
-        'project': project,
-    }
-    return render(request, 'delete-project.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object
+        context['creator'] = self.object.creator
+        return context
+
+
+class EditProject(views.UpdateView):
+    model = Project
+    template_name = 'edit-project.html'
+    form_class = ProjectForm
+    success_url = reverse_lazy('profile details')
+
+    def get_success_url(self):
+        if self.success_url:
+            return self.success_url
+        return super().get_success_url()
+
+
+class DeleteProject(views.DeleteView):
+    model = Project
+    template_name = 'delete-project.html'
+    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        if self.success_url:
+            return self.success_url
+        return super().get_success_url()
 
 
 def about(request):
